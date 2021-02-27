@@ -15,9 +15,6 @@ const cardStyles = makeStyles({
   title: {
     fontSize: 14,
   },
-  pos: {
-    marginBottom: 12,
-  },
 });
 
 export function BookCard(props) {
