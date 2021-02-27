@@ -1,6 +1,6 @@
 import { storage } from './storage';
 import { MaxAllowedItemsInCart } from '../constants';
-const KEY = 'cart_items';
+export const KEY = 'cart_items';
 
 export const updateCartItems = (id, quantity, value) => {
   const items = JSON.parse(storage.getItem(KEY));

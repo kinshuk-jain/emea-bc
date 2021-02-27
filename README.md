@@ -9,7 +9,7 @@
 
 ## Run tests
 
-- TBD
+- The codebase uses jest for testing. To run the tests do `npm run test`
 
 # The Stack
 
