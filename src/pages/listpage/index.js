@@ -1,24 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import { useHistory } from 'react-router-dom';
-import { BookCard } from '../../components/bookCard';
+import { BookCard } from './components/bookCard';
 import { ErrorBoundary } from '../../components/errorBoundary';
-import { CartRoute, ProductRoute } from '../../constants';
+import { Header } from '../../components/header';
+import { ProductRoute, Host, BookListApi } from '../../constants';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
     flexGrow: 1,
   },
   content: {
@@ -37,33 +26,19 @@ export function CategoryPage() {
 
   useEffect(() => {
     function fetchBooks() {
-      fetch('http://localhost:3000/api/books')
+      fetch(Host + BookListApi)
         .then(res => res.json())
-        .then(booksObj => setBooks(booksObj));
+        .then(booksObj => setBooks(booksObj))
+        .catch(e => {
+          throw e;
+        });
     }
     fetchBooks();
   }, []);
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Book Shop
-          </Typography>
-          <Button color="inherit" onClick={() => history.push(CartRoute)}>
-            Cart
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <Header />
       <main className={classes.content}>
         {Object.keys(books).map(bookIndex => {
           const book = books[bookIndex];
@@ -75,7 +50,7 @@ export function CategoryPage() {
               <BookCard
                 book={book}
                 bookDetailHandler={() =>
-                  history.push(`${ProductRoute}/${bookIndex}`)
+                  history.push(ProductRoute.replace(':bookId', bookIndex))
                 }
               />
             </ErrorBoundary>

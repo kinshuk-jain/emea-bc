@@ -28,7 +28,7 @@ export default function App() {
             <ProductPage />
           </ErrorBoundary>
         </Route>
-        <Route path="/">
+        <Route path={['/', '/books']}>
           <ErrorBoundary
             fallback={() => (
               <h3>Could not load the category page! Please try again</h3>
