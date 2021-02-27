@@ -1,4 +1,4 @@
-const server = require('../../index');
+const server = require('../../app');
 
 const bookDetailHandler = (req, res) => {
   const bookId = parseInt(req.params.id);

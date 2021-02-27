@@ -1,4 +1,4 @@
-const server = require('../../index');
+const server = require('../../app');
 
 // Note: Could be paginated. Not paginating for now
 const bookListHandler = (req, res) => {
