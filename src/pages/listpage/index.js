@@ -5,6 +5,7 @@ import { BookCard } from './components/bookCard';
 import { ErrorBoundary } from '../../components/errorBoundary';
 import { Header } from '../../components/header';
 import { ProductRoute, Host, BookListApi } from '../../constants';
+import { checkStatus } from '../../utils/fetchUtils';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,20 +22,24 @@ export function CategoryPage() {
   const classes = useStyles();
 
   const [books, setBooks] = useState({});
+  const [error, setError] = useState(false);
 
   const history = useHistory();
 
   useEffect(() => {
     function fetchBooks() {
       fetch(Host + BookListApi)
+        .then(checkStatus)
         .then(res => res.json())
         .then(booksObj => setBooks(booksObj))
-        .catch(e => {
-          throw e;
-        });
+        .catch(e => setError(e.response));
     }
     fetchBooks();
   }, []);
+
+  if (error) {
+    throw error;
+  }
 
   return (
     <div className={classes.root}>

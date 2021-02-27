@@ -10,6 +10,7 @@ import { CartRoute, Host, BookDetailApi } from '../../constants';
 import { CartCounter } from './components/cartCounter';
 import { Header } from '../../components/header';
 import { updateCartItems } from '../../utils/cartUtils';
+import { checkStatus } from '../../utils/fetchUtils';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,17 +34,17 @@ export function ProductPage() {
   const classes = useStyles();
   const [bookDetails, setBookDetails] = useState({});
   const [count, setCount] = useState(1);
+  const [error, setError] = useState(false);
 
   let { bookId } = useParams();
 
   useEffect(() => {
     function fetchBookDetails() {
       fetch(Host + BookDetailApi.replace(':bookId', bookId))
+        .then(checkStatus)
         .then(res => res.json())
         .then(bookDetailsObj => setBookDetails(bookDetailsObj))
-        .catch(e => {
-          throw e;
-        });
+        .catch(e => setError(e.response));
     }
     fetchBookDetails();
   }, []);
@@ -57,6 +58,10 @@ export function ProductPage() {
   const handleDecrement = () => {
     setCount(Math.max(count - 1, 1));
   };
+
+  if (error) {
+    throw error;
+  }
 
   return (
     <div className={classes.root}>
