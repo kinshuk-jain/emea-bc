@@ -12,26 +12,20 @@ const useStyles = makeStyles(theme => ({
 
 export function CartCounter(props) {
   const classes = useStyles();
-  const [count, setCount] = useState(1);
-  const handleIncrement = () => {
-    setCount(Math.min(count + 1, props.maxValue));
-  };
-
-  const handleDecrement = () => {
-    setCount(Math.max(count - 1, 1));
-  };
 
   return (
     <div className={classes.root}>
       <ButtonGroup size="small">
-        <Button onClick={handleDecrement}>-</Button>
-        <Button>{count}</Button>
-        <Button onClick={handleIncrement}>+</Button>
+        <Button onClick={props.handleDecrement}>-</Button>
+        <Button>{props.count}</Button>
+        <Button onClick={props.handleIncrement}>+</Button>
       </ButtonGroup>
     </div>
   );
 }
 
 CartCounter.propTypes = {
-  maxValue: PropTypes.number.isRequired,
+  handleDecrement: PropTypes.func.isRequired,
+  handleIncrement: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
 };

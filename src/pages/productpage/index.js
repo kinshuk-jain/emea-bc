@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { CartRoute, Host, BookDetailApi } from '../../constants';
 import { CartCounter } from './components/cartCounter';
 import { Header } from '../../components/header';
+import { updateCartItems } from '../../utils/cartUtils';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,6 +32,7 @@ const useStyles = makeStyles(theme => ({
 export function ProductPage() {
   const classes = useStyles();
   const [bookDetails, setBookDetails] = useState({});
+  const [count, setCount] = useState(1);
 
   let { bookId } = useParams();
 
@@ -45,6 +47,16 @@ export function ProductPage() {
     }
     fetchBookDetails();
   }, []);
+
+  const maxAllowedItemsInCart = 20;
+
+  const handleIncrement = () => {
+    setCount(Math.min(count + 1, maxAllowedItemsInCart));
+  };
+
+  const handleDecrement = () => {
+    setCount(Math.max(count - 1, 1));
+  };
 
   return (
     <div className={classes.root}>
@@ -89,8 +101,17 @@ export function ProductPage() {
           Published by {bookDetails.Publisher}
         </Typography>
         <div className={classes.buttons}>
-          <CartCounter maxValue={20} />
-          <Button color="primary">Add to Cart</Button>
+          <CartCounter
+            count={count}
+            handleDecrement={handleDecrement}
+            handleIncrement={handleIncrement}
+          />
+          <Button
+            color="primary"
+            onClick={() => updateCartItems(bookId, count, bookDetails)}
+          >
+            Add to Cart
+          </Button>
         </div>
       </Paper>
     </div>
