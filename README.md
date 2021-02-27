@@ -46,15 +46,3 @@ A CSV file is loaded into memory and serves as the data backend for the books AP
 - Create a sub-folder inside route folders for each API hierarchy. For example an api like `/a/b/c` should have a file with a name linked to `c` inside a folder called `b` inside a folder called `a`.
 
 ---
-
-# 2. What we will be looking at
-
-# 5. Requirements
-
-3. Implement the cart page
-   - It should list all the books that are added to the cart by the user.
-   - Users should be able to clear the cart or remove items from the cart.
-
-Feel free to change anything that is already implemented, e.g. better directory and component structure. You should fix any bugs or anything that can hurt backend and frontend performance.
-
-# 6. Be prepared to do a pair review of the delivered codebase
