@@ -6,8 +6,8 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import { CartRoute, Host, BookDetailApi } from '../../constants';
-import { CartCounter } from './components/cartCounter';
+import { Host, BookDetailApi, MaxAllowedItemsInCart } from '../../constants';
+import { CartCounter } from '../../components/cartCounter';
 import { Header } from '../../components/header';
 import { updateCartItems } from '../../utils/cartUtils';
 import { checkStatus } from '../../utils/fetchUtils';
@@ -49,10 +49,8 @@ export function ProductPage() {
     fetchBookDetails();
   }, []);
 
-  const maxAllowedItemsInCart = 20;
-
   const handleIncrement = () => {
-    setCount(Math.min(count + 1, maxAllowedItemsInCart));
+    setCount(Math.min(count + 1, MaxAllowedItemsInCart));
   };
 
   const handleDecrement = () => {
@@ -111,12 +109,14 @@ export function ProductPage() {
             handleDecrement={handleDecrement}
             handleIncrement={handleIncrement}
           />
-          <Button
-            color="primary"
-            onClick={() => updateCartItems(bookId, count, bookDetails)}
-          >
-            Add to Cart
-          </Button>
+          {bookDetails.Title ? (
+            <Button
+              color="primary"
+              onClick={() => updateCartItems(bookId, count, bookDetails)}
+            >
+              Add to Cart
+            </Button>
+          ) : null}
         </div>
       </Paper>
     </div>

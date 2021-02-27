@@ -1,4 +1,5 @@
 import { storage } from './storage';
+import { MaxAllowedItemsInCart } from '../constants';
 const KEY = 'cart_items';
 
 export const updateCartItems = (id, quantity, value) => {
@@ -23,7 +24,7 @@ export const updateCartItems = (id, quantity, value) => {
         ...items,
         [id]: {
           ...items[id],
-          quantity,
+          quantity: Math.min(MaxAllowedItemsInCart, quantity),
         },
       })
     );
@@ -38,5 +39,9 @@ export const updateCartItems = (id, quantity, value) => {
 };
 
 export const getCartItems = () => {
-  return storage.getItem(KEY);
+  return JSON.parse(storage.getItem(KEY));
+};
+
+export const clearCart = () => {
+  storage.setItem(KEY, JSON.stringify({}));
 };
