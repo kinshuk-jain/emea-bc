@@ -39,7 +39,8 @@ export const updateCartItems = (id, quantity, value) => {
 };
 
 export const getCartItems = () => {
-  return JSON.parse(storage.getItem(KEY));
+  const data = storage.getItem(KEY);
+  return JSON.parse(data ? data : '{}');
 };
 
 export const clearCart = () => {

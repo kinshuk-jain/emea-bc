@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Experimental App",
   "scripts": {
-    "test": "jest --detectOpenHandles",
+    "test": "NODE_ENV=test jest --detectOpenHandles",
     "start": "parcel ./src/index.html",
     "bootServer": "node ./server/index.js",
     "build": "parcel build ./src/index.html",
@@ -30,6 +30,7 @@
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
+    "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "babel-eslint": "^10.0.3",
     "babel-plugin-import": "^1.13.0",
