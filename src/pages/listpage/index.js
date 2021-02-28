@@ -27,14 +27,25 @@ export function CategoryPage() {
   const history = useHistory();
 
   useEffect(() => {
+    let isMounted = true;
+
     function fetchBooks() {
       fetch(Host + BookListApi)
         .then(checkStatus)
         .then(res => res.json())
-        .then(booksObj => setBooks(booksObj))
-        .catch(e => setError(e.response));
+        .then(booksObj => {
+          if (isMounted) {
+            setBooks(booksObj);
+          }
+        })
+        .catch(e => {
+          if (isMounted) {
+            setError(e.response);
+          }
+        });
     }
     fetchBooks();
+    return () => (isMounted = false);
   }, []);
 
   if (error) {

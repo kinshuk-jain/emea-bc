@@ -39,14 +39,26 @@ export function ProductPage() {
   let { bookId } = useParams();
 
   useEffect(() => {
+    let isMounted = true;
+
     function fetchBookDetails() {
       fetch(Host + BookDetailApi.replace(':bookId', bookId))
         .then(checkStatus)
         .then(res => res.json())
-        .then(bookDetailsObj => setBookDetails(bookDetailsObj))
-        .catch(e => setError(e.response));
+        .then(bookDetailsObj => {
+          if (isMounted) {
+            setBookDetails(bookDetailsObj);
+          }
+        })
+        .catch(e => {
+          if (isMounted) {
+            setError(e.response);
+          }
+        });
     }
     fetchBookDetails();
+
+    return () => (isMounted = false);
   }, []);
 
   const handleIncrement = () => {
@@ -70,8 +82,15 @@ export function ProductPage() {
             <Typography variant="h5" component="h2">
               {bookDetails.Title}
             </Typography>
-            <Typography color="textSecondary" component="h4" gutterBottom>
+            <Typography color="textSecondary" component="h4">
               by {bookDetails.Author}
+            </Typography>
+            <Typography
+              color="textSecondary"
+              component="h6"
+              className={classes.text}
+            >
+              Height: {bookDetails.Height}
             </Typography>
           </Paper>
         </Grid>
@@ -93,7 +112,7 @@ export function ProductPage() {
               color="textSecondary"
               gutterBottom
             >
-              SubGenre: {bookDetails.SubGenre}
+              Sub Genre: {bookDetails.SubGenre}
             </Typography>
           </Paper>
         </Grid>

@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 export function CartPage() {
   const classes = useStyles();
   const cartItems = getCartItems();
-  const numItems = Object.keys(cartItems).length;
+  const numItems = !!cartItems ? Object.keys(cartItems).length : 0;
   const [emptyCart, setEmptyCart] = useState(numItems === 0);
 
   return (
