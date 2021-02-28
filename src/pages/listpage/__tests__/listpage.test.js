@@ -11,6 +11,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { CategoryPage } from '../index';
 import App from '../../../App';
 import { BookListApi, Host } from '../../../constants';
+import { ErrorBoundary } from '../../../components/errorBoundary';
 
 const booksList = [
   {
@@ -70,22 +71,21 @@ test('calls fetch with right endpoint', async () => {
   expect(global.fetch.mock.calls[0][0]).toBe(Host + BookListApi);
 });
 
-// TODO: fix me
-test.skip('throws when data cannot be fetched', async () => {
+test('throws when data cannot be fetched', async () => {
   global.fetch = jest.fn().mockImplementationOnce(() =>
     Promise.resolve({
       status: 400,
       json: () => Promise.resolve(booksList),
     })
   );
-  try {
-    // act(() => {
-    render(<CategoryPage />);
-    await waitFor(() => screen.getByText(booksList[0].Title));
-    // });
-  } catch (e) {
-    expect(e).toBeDefined();
-  }
+
+  render(
+    <ErrorBoundary fallback={() => <h2>failed to load</h2>}>
+      <CategoryPage />
+    </ErrorBoundary>
+  );
+
+  await waitFor(() => expect(screen.getByText('failed to load')).toBeDefined());
 });
 
 test('shows cart page on clicking cart in header', async () => {
