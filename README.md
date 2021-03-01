@@ -6,6 +6,7 @@
 - Start the DEV mode of the frontend by executing `npm start`.
 - Start the REST API server by executing `npm run bootServer`.
   - Make sure your Node.js version is `>=10`.
+- The backend runs on `http://localhost:3000` and frontend runs on `http://localhost:1234`
 
 ## Run tests
 
